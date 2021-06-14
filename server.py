@@ -7,7 +7,6 @@ class FuncList(ServeList):
         self.funcRegister({'ADD': self.plus,
             'GET': self.get,
             })
-        print(self.getFuncList())
         #self.addFunc('ADD', self.plus)
         #self.addFunc('GET', self.get)
 

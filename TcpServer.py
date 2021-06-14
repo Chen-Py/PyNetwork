@@ -7,7 +7,7 @@ class ServeList(Thread):
         Thread.__init__(self)
         self.bufsiz = 0
         self.clisock = None
-        self.switch = {'HEL': self.hello,
+        self.funclis = {'HEL': self.hello,
                 'CEK': self.checkConnect,
                 }
     
@@ -18,14 +18,14 @@ class ServeList(Thread):
         self.bufsiz = bufsiz
     
     def getFuncList(self):
-        return self.switch
+        return self.funclis
     
     def addFunc(self, funcname, func):
-        self.switch[funcname] = func
+        self.funclis[funcname] = func
     
     def funcRegister(self, lis):
         for key, val in lis.items():
-            self.switch[key] = val
+            self.funclis[key] = val
     
     def send(self, msg):
         self.clisock.send(msg.encode())
@@ -44,8 +44,7 @@ class ServeList(Thread):
 
     def checkConnect(self):
         msg = self.clisock.recv(self.bufsiz).decode()
-        print('Message: ' + msg)
-        self.clisock.send(('Accepted: ' + msg).encode())
+        self.clisock.send(msg.encode())
 
     def default(self):
         self.clisock.send('CodeError'.encode())
@@ -60,7 +59,7 @@ class ServeList(Thread):
                 break
             else:
                 try:
-                    self.switch.get(mark, self.default)()
+                    self.funclis.get(mark, self.default)()
                 except Exception as e:
                     print(e)
                     break
