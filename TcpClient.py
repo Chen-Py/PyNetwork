@@ -23,7 +23,7 @@ class TcpCliSock:
     def sendbyte(self, msg):
         self.sock.send(msg)
 
-    def signal(self, sign, data):
+    def signal(self, sign, data = None):
         if(self.state != 'Connected'):
             return False
         self.sock.send(sign.encode())
