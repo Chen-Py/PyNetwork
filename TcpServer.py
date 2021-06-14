@@ -48,7 +48,6 @@ class ServeList(Thread):
         self.clisock.send(('Accepted: ' + msg).encode())
 
     def default(self):
-        print('Error')
         self.clisock.send('CodeError'.encode())
 
     def run(self):
@@ -56,17 +55,14 @@ class ServeList(Thread):
             try:
                 mark = self.clisock.recv(self.bufsiz).decode()
                 if(mark == ''):
-                    print('Logged out')
                     break
             except:
-                print('Logged out')
                 break
             else:
                 try:
                     self.switch.get(mark, self.default)()
                 except Exception as e:
                     print(e)
-                    print('Logged out')
                     break
         self.clisock.close()
 
