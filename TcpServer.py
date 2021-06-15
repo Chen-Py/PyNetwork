@@ -53,8 +53,7 @@ class ServeList(Thread):
         while True:
             try:
                 mark = self.clisock.recv(self.bufsiz).decode()
-                if(mark == ''):
-                    break
+                if(mark == ''): continue
             except:
                 break
             else:
