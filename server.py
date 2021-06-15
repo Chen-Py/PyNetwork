@@ -20,5 +20,5 @@ class FuncList(ServeList):
         self.send(str(val))
         
 
-SB = ServerBase(FuncList, '0.0.0.0', 21567)
+SB = ServerBase('0.0.0.0', 21567, funclis = FuncList)
 SB.run()

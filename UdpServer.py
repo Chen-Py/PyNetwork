@@ -115,9 +115,6 @@ class UdpSerBase():
             print('[help] /exit close the server')
         print('Server Closed..')
         self.exit = True
-        #tmpsock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-        #tmpsock.sendto('KILL'.encode(), ('127.0.0.1', self.port))
-        #tmpsock.close()
         self.sock.shutdown(2)
         self.sock.close()
         self.setHead('Bye~/:>')
@@ -125,7 +122,7 @@ class UdpSerBase():
     def run(self):
         Dokithread = Thread(target = self.checkDoki)
         Dokithread.start()
-        Cmdthread =  Thread(target = self.command)
+        Cmdthread = Thread(target = self.command)
         Cmdthread.start()
         while(1):
             if(self.exit): break
