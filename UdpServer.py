@@ -24,6 +24,9 @@ class UdpSerBase():
             '/showclients': self.showClients,
         }
 
+    def newClient(self):
+        return {'role': 'client'}
+
     def getClientDict(self):
         return self.clients
 
@@ -126,7 +129,7 @@ class UdpSerBase():
             msg, addr = self.sock.recvfrom(self.bufsiz)
             if(self.exit): break
             if not(addr in self.clients.keys()):
-                self.clients[addr] = {'role': 'client'}
+                self.clients[addr] = self.newClient()
             self.clients[addr]['lastdoki'] = time.time()
             msg = msg.decode()
             sign, data = tuple(msg.split('/:>'))

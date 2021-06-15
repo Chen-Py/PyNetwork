@@ -14,7 +14,6 @@ class UdpCliSock():
         try:
             self.signal('EHE')
             reply = self.recv()
-            print(reply)
             if reply == 'Ehe te nan da yo!': return 'Connected'
         except:
             return 'Unconnected'
