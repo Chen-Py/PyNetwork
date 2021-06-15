@@ -24,6 +24,14 @@ class UdpSerBase():
             '/showclients': self.showClients,
         }
 
+    def getClientDict(self):
+        return self.clients
+
+    def getClient(self, addr):
+        if self.clients.has_key(addr):
+            return self.clients[addr]
+        else: return None
+
     def getFuncList(self):
         return self.funclis
 
