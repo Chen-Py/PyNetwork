@@ -115,9 +115,11 @@ class UdpSerBase():
             print('[help] /exit close the server')
         print('Server Closed..')
         self.exit = True
-        tmpsock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-        tmpsock.sendto('KILL'.encode(), ('127.0.0.1', self.port))
-        tmpsock.close()
+        #tmpsock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+        #tmpsock.sendto('KILL'.encode(), ('127.0.0.1', self.port))
+        #tmpsock.close()
+        self.sock.shutdown(2)
+        self.sock.close()
         self.setHead('Bye~/:>')
 
     def run(self):
@@ -126,15 +128,18 @@ class UdpSerBase():
         Cmdthread =  Thread(target = self.command)
         Cmdthread.start()
         while(1):
-            msg, addr = self.sock.recvfrom(self.bufsiz)
             if(self.exit): break
-            if not(addr in self.clients.keys()):
-                self.clients[addr] = self.newClient()
-            self.clients[addr]['lastdoki'] = time.time()
-            msg = msg.decode()
-            sign, data = tuple(msg.split('/:>'))
-            Thread(target = self.funclis.get(sign, self.signDefault), args = (addr, data)).run()
-        self.sock.close()
+            try:
+                msg, addr = self.sock.recvfrom(self.bufsiz)
+            except: break
+            else:
+                if not(addr in self.clients.keys()):
+                    self.clients[addr] = self.newClient()
+                self.clients[addr]['lastdoki'] = time.time()
+                msg = msg.decode()
+                sign, data = tuple(msg.split('/:>'))
+                Thread(target = self.funclis.get(sign, self.signDefault), args = (addr, data)).run()
+
 
 server = UdpSerBase('0.0.0.0', 21567, dokitime = 5)
 server.run()
